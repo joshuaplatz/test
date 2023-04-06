@@ -24,16 +24,16 @@ function Test-ADAuthentication {
 	
 	$principalContext = New-Object System.DirectoryServices.AccountManagement.PrincipalContext -ArgumentList $argumentList -ErrorAction SilentlyContinue
 
-	if ($null -eq $principalContext) {
-		Write-Warning "$Domain\$User - AD Authentication failed"
-	}
+	#if ($null -eq $principalContext) {
+	#	Write-Warning "$Domain\$User - AD Authentication failed"
+	#}
 	
 	if ($principalContext.ValidateCredentials($User, $Password)) {
-		Write-Host -ForegroundColor green "$Domain\$User - AD Authentication OK"
+		Write-Output "$Domain\$User - AD Authentication OK"
 	}
-	else {
-		Write-Warning "$Domain\$User - AD Authentication failed"
-	}
+	#else {
+	#	Write-Warning "$Domain\$User - AD Authentication failed"
+	#}
 }
 
 #Test-ADAuthentication -User toto -Password passXX
