@@ -40,4 +40,4 @@ function Test-ADAuthentication {
 
 #Test-ADAuthentication -User toto -Password passXX -Server xxx.domain.com
 
-#Get-Content .\userfile.txt | ForEach-Object { Test-ADAuthentication -User $_ -Password 'Winter2023' -Server <domain> > output.txt
+#Get-Content .\userfile.txt | ForEach-Object { Test-ADAuthentication -User $_ -Password 'Winter2023' -Server <domain> } > output.txt
